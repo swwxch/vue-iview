@@ -34,7 +34,7 @@
         <Row type="flex" justify="center" align="middle">
             <Col span="12">
                 <h1>
-                    <img src="https://raw.githubusercontent.com/iview/iview/master/assets/logo.png">
+
                 </h1>
                 <h2>
                     <p>{{message}}</p>
@@ -42,8 +42,8 @@
                 </h2>
             </Col>
             <Col span="12">
-            <Button>Default</Button>
-            <Button type="primary">Primary</Button>
+            <Button >{{message}}</Button>
+            <Button type="primary">{{date}}</Button>
             <Button type="ghost">Ghost</Button>
             <Button type="dashed">Dashed</Button>
             <Button type="text">Text</Button>
@@ -52,7 +52,8 @@
             <Button type="success">Success</Button>
             <Button type="warning">Warning</Button>
             <Button type="error">Error</Button>
-
+            <span v-html="link"></span>
+            <div>{{ isOk ? '确定':'取消' }}</div>
             <Switch v-model="switch1" @on-change="change"></Switch>
             <span v-bind:title=message>鼠标悬停提示信息</span>
             </Col>
@@ -65,8 +66,30 @@
             return{
                 message:"页面加载于"+new Date().toLocaleString(),
                 value1:0,
-                switch1:false
+                switch1:false,
+                date:new Date().toLocaleString(),
+                link:'<a href="#"> 这是一个链接</a>',
+                isOk:false
             }
+        },
+        created:function(){
+            console.log("尚未挂载，$el不可用，但是数据可读"+this.message);
+        },
+        mounted:function(){
+            console.log("el已挂载，$el可用"+this.$el);
+            let _this = this;
+            this.timeer = setInterval(function(){
+                _this.date= new Date().toLocaleString();
+            },1000)
+            console.log(this.timeer)
+        },
+        beforeUpdate:function(){
+            console.log("view数据被更新"+this.switch1);
+        },
+        beforeDestroy:function(){
+          if(this.timeer){
+              clearInterval(this.timeer);//vue实例销毁，清除定时器
+          }
         },
         methods: {
             handleStart() {
@@ -76,6 +99,7 @@
                 });
             },
             change (status) {
+                console.log(this.message);
                 this.$Message.info('开关状态：' + status);
             }
         }
