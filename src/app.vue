@@ -11,7 +11,7 @@
             };
         },
         mounted() {
-
+            console.log("app el已挂载，$el可用"+this.$el);
         },
         beforeDestroy() {
 

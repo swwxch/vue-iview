@@ -67,7 +67,7 @@ const store = new Vuex.Store({
 });
 
 
-new Vue({
+var app = new Vue({
     el: '#app',
     router: router,
     store: store,
