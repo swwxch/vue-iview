@@ -34,7 +34,10 @@
         <Row type="flex" justify="center" align="middle">
             <Col span="12">
                 <h1>
-
+                    <img  v-bind:src="imgUrl"/>
+                </h1>
+                <h1>
+                    <Button type="ghost"  v-on:click="changeImg(imgUrl)">变换图片</Button>
                 </h1>
                 <h2>
                     <p>{{message}}</p>
@@ -42,8 +45,8 @@
                 </h2>
             </Col>
             <Col span="12">
-            <Button >{{message}}</Button>
-            <Button type="primary">{{date}}</Button>
+            <Button >{{message.split(',').reverse().join(',')}}</Button>
+            <Button type="primary">{{date | formatDateA(message,messageInfo)}}</Button>
             <Button type="ghost">Ghost</Button>
             <Button type="dashed">Dashed</Button>
             <Button type="text">Text</Button>
@@ -51,7 +54,7 @@
             <Button type="info">Info</Button>
             <Button type="success">Success</Button>
             <Button type="warning">Warning</Button>
-            <Button type="error">Error</Button>
+            <Button v-if="show" type="error">Error</Button>
             <span v-html="link"></span>
             <div>{{ isOk ? '确定':'取消' }}</div>
             <Switch v-model="switch1" @on-change="change"></Switch>
@@ -61,15 +64,20 @@
     </div>
 </template>
 <script>
+    import  dateUtil from "iview/src/utils/date";
     export default {
         data:function(){
             return{
-                message:"页面加载于"+new Date().toLocaleString(),
+                message:"页面加,载于"+new Date().toLocaleString(),
+                messageInfo:"信息a",
                 value1:0,
-                switch1:false,
-                date:new Date().toLocaleString(),
+                switch1:true,
+                date:new Date(),
                 link:'<a href="#"> 这是一个链接</a>',
-                isOk:false
+                isOk:false,
+                show:true,
+                imgUrl:"http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg",
+                tempUrl:""
             }
         },
         created:function(){
@@ -78,10 +86,10 @@
         mounted:function(){
             console.log("el已挂载，$el可用"+this.$el);
             let _this = this;
-            this.timeer = setInterval(function(){
-                _this.date= new Date().toLocaleString();
+            /*this.timeer = setInterval(function(){
+                _this.date= new Date();
             },1000)
-            console.log(this.timeer)
+            console.log(this.timeer)*/
         },
         beforeUpdate:function(){
             console.log("view数据被更新"+this.switch1);
@@ -99,8 +107,27 @@
                 });
             },
             change (status) {
-                console.log(this.message);
+                console.log(this);
+                this.show = status;
                 this.$Message.info('开关状态：' + status);
+            },
+            changeImg(url){
+                console.info(url)
+                let imgUrla  = "http://pic32.photophoto.cn/20140711/0011024086081224_b.jpg";
+                if(url === imgUrla){
+                    this.imgUrl = this.tempUrl;
+                }else{
+                    this.imgUrl = imgUrla;
+                    this.tempUrl = url;
+                }
+            }
+        },
+        filters: {
+            formatDateA:function (value,message,messageInfo) {
+                console.info(value+"aa"+message+"bb"+messageInfo);
+                let date = dateUtil.format(value,'yyyy-MM-dd HH:mm:ss');
+               // let value = this.iView.formatDate(this.date, "yyyy-MM-dd HH:mm:ss")
+                return date;
             }
         }
     };
