@@ -53,7 +53,11 @@
             <Button type="warning">Warning</Button>
             <Button type="error">Error</Button>
             <span v-html="link"></span>
+<<<<<<< HEAD
             <div>{{ isOk ? '确定':'取额消' }}</div>
+=======
+            <div>{{ isOk ? '确定':'取额3消' }}</div>
+>>>>>>> 8ecd0e5bef598fc8712ae078db659941d9bf6de1
             <Switch v-model="switch1" @on-change="change"></Switch>
             <span v-bind:title=message>鼠标悬停提示信息</span>
             </Col>
