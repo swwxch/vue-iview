@@ -55,7 +55,7 @@
             <span v-html="link"></span>
             <div>{{ isOk ? '确定':'取消' }}</div>
             <Switch v-model="switch1" @on-change="change"></Switch>
-            <span v-bind:title=message>鼠标悬停提示信息</span>
+            <span v-bind:title=message>鼠标悬停提示3信息</span>
             </Col>
         </Row>
     </div>
